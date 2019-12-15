@@ -80,8 +80,8 @@ hist(iris$Sepal.Width, col = "red")   # Makes red bars
 
 # Feature plots
 # https://www.machinelearningplus.com/machine-learning/caret-package/
-featurePlot(x = TrainingSet[,1:4], 
-            y = TrainingSet$Species, 
+featurePlot(x = iris[,1:4], 
+            y = iris$Species, 
             plot = "box",
             strip=strip.custom(par.strip.text=list(cex=.7)),
             scales = list(x = list(relation="free"), 
