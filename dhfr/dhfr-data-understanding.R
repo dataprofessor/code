@@ -13,9 +13,10 @@
 library(datasets)
 data(dhfr)
 
+# Method 2
 #dhfr2 <- datasets::dhfr
 
-# Method 2
+# Method 3
 # install.packages("RCurl")
 
 #library(RCurl)
