@@ -25,7 +25,7 @@ TestingSet <- dhfr[-TrainingIndex,] # Test Set
 
 
 ###############################
-# SVM model (polynomial kernel)
+# Random forest
 
 
 # Run normally without parallel processing
@@ -75,6 +75,42 @@ print(run.time)
 stopCluster(cl)
 
 
+
+
+##########################
+
+# Run without parallel processing
+
+start.time <- proc.time()
+Model <- train(Y ~ ., 
+               data = TrainingSet, # Build model using training set
+               method = "rf", # Learning algorithm
+               tuneGrid = data.frame(mtry = seq(5,15, by=5))
+         )
+stop.time <- proc.time()
+run.time <- stop.time - start.time
+print(run.time)
+
+# Using doParallel
+
+library(doParallel)
+
+cl <- makePSOCKcluster(5)
+registerDoParallel(cl)
+
+## All subsequent models are then run in parallel
+start.time <- proc.time()
+Model <- train(Y ~ ., 
+               data = TrainingSet, # Build model using training set
+               method = "rf", # Learning algorithm
+               tuneGrid = data.frame(mtry = seq(5,15, by=5))
+         )
+stop.time <- proc.time()
+run.time <- stop.time - start.time
+print(run.time)
+
+## When you are done:
+stopCluster(cl)
 
 
 ##########################
