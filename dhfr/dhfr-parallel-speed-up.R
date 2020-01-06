@@ -38,22 +38,9 @@ stop.time <- proc.time()
 run.time <- stop.time - start.time
 print(run.time)
 
-# Method 1 - Use doMC
 
 
-library(doMC)
-registerDoMC(2)
-start.time <- proc.time()
-Model <- train(Y ~ ., 
-               data = TrainingSet, # Build model using training set
-               method = "svmPoly" # Learning algorithm
-         )
-stop.time <- proc.time()
-run.time <- stop.time - start.time
-print(run.time)
-
-
-# Method 2 - Use doParallel
+# Use doParallel
 # https://topepo.github.io/caret/parallel-processing.html
 
 library(doParallel)
@@ -61,7 +48,6 @@ library(doParallel)
 cl <- makePSOCKcluster(5)
 registerDoParallel(cl)
 
-## All subsequent models are then run in parallel
 start.time <- proc.time()
 Model <- train(Y ~ ., 
                data = TrainingSet, # Build model using training set
@@ -71,7 +57,6 @@ stop.time <- proc.time()
 run.time <- stop.time - start.time
 print(run.time)
 
-## When you are done:
 stopCluster(cl)
 
 
@@ -98,7 +83,6 @@ library(doParallel)
 cl <- makePSOCKcluster(5)
 registerDoParallel(cl)
 
-## All subsequent models are then run in parallel
 start.time <- proc.time()
 Model <- train(Y ~ ., 
                data = TrainingSet, # Build model using training set
@@ -109,7 +93,6 @@ stop.time <- proc.time()
 run.time <- stop.time - start.time
 print(run.time)
 
-## When you are done:
 stopCluster(cl)
 
 
