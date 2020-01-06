@@ -32,7 +32,7 @@ TestingSet <- dhfr[-TrainingIndex,] # Test Set
 start.time <- proc.time()
 Model <- train(Y ~ ., 
                data = TrainingSet, # Build model using training set
-               method = "svmPoly" # Learning algorithm
+               method = "rf" # Learning algorithm
          )
 stop.time <- proc.time()
 run.time <- stop.time - start.time
@@ -51,7 +51,7 @@ registerDoParallel(cl)
 start.time <- proc.time()
 Model <- train(Y ~ ., 
                data = TrainingSet, # Build model using training set
-               method = "svmPoly" # Learning algorithm
+               method = "rf" # Learning algorithm
          )
 stop.time <- proc.time()
 run.time <- stop.time - start.time
