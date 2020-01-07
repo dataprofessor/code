@@ -31,9 +31,12 @@ na.gen <- function(data,n) {
 }
 
 
-# Choose 1 of the following to run (they'll produce the same result)
+# Before introducing NA to the dataset, leave the Y class label (output variable) out
 
 dhfr <- dhfr[,-1]
+
+
+# Choose 1 of the following to run (they'll produce the same result)
 
 dhfr <- na.gen(dhfr,100)
 
