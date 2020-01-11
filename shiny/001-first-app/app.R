@@ -6,13 +6,15 @@
 
 # Modified from Winston Chang, https://shiny.rstudio.com/gallery/shiny-theme-selector.html
 
+# Load R packages
 library(shiny)
 library(shinythemes)
 
 
-shinyApp(
-  ui = fluidPage(theme = shinytheme("cerulean"),
+  # Define UI
+  ui <- fluidPage(theme = shinytheme("cerulean"),
     navbarPage(
+      # theme = "cerulean",  # <--- To use a theme, uncomment this
       "My first app",
       tabPanel("Navbar 1",
                sidebarPanel(
@@ -50,10 +52,12 @@ shinyApp(
       copyright <- div(HTML("<br><table border=0 cellpadding=10 cellspacing=10 width='100%' height='50'><tr><td bgcolor='#f2f2f2' align='center'>Copyright © 2020 <a href='http://youtube.com/dataprofessor'>Data Professor</a>. All rights reserved.</td></tr></table>")),
       cat(as.character(copyright))
       
-    )
-  ),
+    ) # navbarPage
+  ) # fluidPage
+
   
-  server = function(input, output) {
+  # Define server function  
+  server <- function(input, output) {
     
     output$txtout <- renderText({
       paste(input$txt1, input$txt2, sep = "\n")
@@ -65,5 +69,8 @@ shinyApp(
     
     output$txtboxout <- renderText({ paste(input$textbox) })
 
-  }
-)
+  } # server
+  
+
+  # Create Shiny object
+  shinyApp(ui = ui, server = server)
