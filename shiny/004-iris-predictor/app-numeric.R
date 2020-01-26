@@ -26,13 +26,23 @@ ui <- pageWithSidebar(
   
   # Input values
   sidebarPanel(
-    HTML("<h3>Input parameters</h4>"),
-    numericInput("Sepal.Length", label = "Sepal Length", value = 5.0),
-    numericInput("Sepal.Width", label = "Sepal Width", value = 3.6),
-    numericInput("Petal.Length", label = "Petal Length", value = 1.4),
-    numericInput("Petal.Width", label = "Petal Width", value = 0.2),
+    #HTML("<h3>Input parameters</h3>"),
+    tags$label(h3('Input parameters')),
+    numericInput("Sepal.Length", 
+                 label = "Sepal Length", 
+                 value = 5.1),
+    numericInput("Sepal.Width", 
+                 label = "Sepal Width", 
+                 value = 3.6),
+    numericInput("Petal.Length", 
+                 label = "Petal Length", 
+                 value = 1.4),
+    numericInput("Petal.Width", 
+                 label = "Petal Width", 
+                 value = 0.2),
     
-    actionButton("submitbutton", "Submit", class = "btn btn-primary")
+    actionButton("submitbutton", "Submit", 
+                 class = "btn btn-primary")
   ),
   
   mainPanel(
