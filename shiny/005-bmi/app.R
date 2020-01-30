@@ -20,10 +20,20 @@ ui <- fluidPage(theme = shinytheme("united"),
                                     # Input values
                                     sidebarPanel(
                                       HTML("<h3>Input parameters</h4>"),
-                                      sliderInput("height", label = "Height", value = 175, min = 40, max = 250),
-                                      sliderInput("weight", label = "Weight", value = 70, min = 20, max = 100),
+                                      sliderInput("height", 
+                                                  label = "Height", 
+                                                  value = 175, 
+                                                  min = 40, 
+                                                  max = 250),
+                                      sliderInput("weight", 
+                                                  label = "Weight", 
+                                                  value = 70, 
+                                                  min = 20, 
+                                                  max = 100),
                                       
-                                      actionButton("submitbutton", "Submit", class = "btn btn-primary")
+                                      actionButton("submitbutton", 
+                                                   "Submit", 
+                                                   class = "btn btn-primary")
                                     ),
                                     
                                     mainPanel(
