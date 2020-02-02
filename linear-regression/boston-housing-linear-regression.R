@@ -37,14 +37,6 @@ Model <- train(medv ~ ., data = TrainingSet,
                trControl= trainControl(method="none")
 )
 
-# Build CV model
-Model.cv <- train(medv ~ ., data = TrainingSet,
-                  method = "lm",
-                  na.action = na.omit,
-                  preProcess=c("scale","center"),
-                  trControl= trainControl(method="cv", number=10)
-)
-
 # Apply model for prediction
 Model.training <-predict(Model, TrainingSet) # Apply model to make prediction on Training set
 Model.testing <-predict(Model, TestingSet) # Apply model to make prediction on Testing set
