@@ -29,8 +29,8 @@ df <- aromatase3 # Once we are satisfied with the dataset, let's call it "df" fo
 ######## plot()
 
 # See at a glance all possible scatter plots
-plot(aromatase2)
-plot(aromatase2 , col = "blue")
+plot(df)
+plot(df , col = "blue")
 
 # Select a pair of interest to visualize scatter plot
 
@@ -40,18 +40,66 @@ plot(aromatase2 , col = "blue")
 plot(df$MW, df$ALogP)
 
 
-plot(df$MW, df$ALogP, col = "red")
+# We're going to make Steroids blue and Non-Steroids red
+library(colorspace) 
+df$color <- factor(df$class,
+                     levels=c("Steroid", "Non-Steroid"),
+                     labels=c("blue", "red"))
+plot(df$MW, df$ALogP, pch = 16, col=as.character(df$color) )
 
-plot(df$MW, df$ALogP, pch = 16, col = "red") # pch = 16 means that circles are filled,
-                                                # by default it is open circles
-                                                # There are a total of 25 symbols to choose from
+
+
+
+# col argument for defining the color
+# R has 657 colors, colors() function lists these colors
+plot(df$MW, df$ALogP, col = "red")
+plot(df$MW, df$ALogP, col = "blue")
+plot(df$MW, df$ALogP, col = "green")
+plot(df$MW, df$ALogP, col = "purple")
+
+plot(df$MW, df$ALogP, col = "orangered3")
+
+plot(df$MW, df$ALogP, col = "#FF0000") # Hex color code for red
+
+# Color in RGB color code
+rgb(1,0,0) # red color
+rgb(255,0,0, max=255) # red color
+
+plot(df$MW, df$ALogP, col = rgb(255,0,0, max=255) )
+
+
+
+# symbols
+
+plot(df$MW, df$ALogP, pch = 1) # pch = 1, open circles (the default value)
+                                            # There are a total of 25 symbols to choose from
+plot(df$MW, df$ALogP, pch = 2) # pch = 2, open triangle symbols
+plot(df$MW, df$ALogP, pch = 3) # pch = 3, plus symbols
+plot(df$MW, df$ALogP, pch = 4) # pch = 4, x symbols
+plot(df$MW, df$ALogP, pch = 5) # pch = 5, diamond diamongs
+plot(df$MW, df$ALogP, pch = 16) # pch = 16, filled circle symbols
+
+
+plot(df$MW, df$ALogP, pch = 16, col = "orangered3")                                                
+col2rgb("orangered3") # This gives us rgb(205,55,0, max=255)
+plot(df$MW, df$ALogP, pch = 16, col = rgb(205,55,0, max=255))
+
+
+# Add transparency to color 
 
 library(scales)
 
 plot(df$MW, df$ALogP, pch = 16, 
-     col = alpha("red", 0.3)
-)
+     col = alpha("orangered3", 0.3))
 
+plot(df$MW, df$ALogP, pch = 16, 
+     col = rgb(205,55,0, 75, max=255))
+
+plot(df$MW, df$ALogP, pch = 16, col=alpha(as.character(df$color),0.3 ) )
+
+
+##################################
+# Multi-plot
 
 # Scatter plot of first pair
 plot(df$MW, df$ALogP, pch = 16, 
@@ -95,28 +143,52 @@ abline(lm(df$HOMO ~ df$MW)) # Trend line
 
 ######## Creating multi-plot figures
 
-  # 2 columns by 2 rows
+  # 2 rows by 2 columns
+
       par(mfrow=c(2,2))
       # Plot 1
       # Plot 2
       # Plot 3
       # Plot 4
       
-  # 4 columns by 1 row
-      par(mfrow=c(4,1))
+      par(mfrow=c(2,2),  mai = c(0.7, 0.7, 0.3, 0.3))
+        plot(df$MW, df$ALogP) # Plot 1
+        plot(df$MW, df$Qm) # Plot 2
+        plot(df$HOMO, df$LUMO) # Plot 3
+        plot(df$MW, df$HOMO) # Plot 4
+      
+        
+  # 3 rows by 1 column
+        
+      par(mfrow=c(3,1))
       # Plot 1
       # Plot 2
-      # Plot 3
       # Plot 4
       
-  # 1 column by 4 row
-      par(mfrow=c(1,4))
+      par(mfrow=c(3,1),  mai = c(0.3, 0.7, 0.1, 0.3))
+        plot(df$MW, df$ALogP) # Plot 1
+        plot(df$MW, df$Qm) # Plot 2
+        plot(df$MW, df$HOMO) # Plot 4
+      
+        
+  # 1 row by 3 column
+        
+      par(mfrow=c(1,3))
       # Plot 1
       # Plot 2
       # Plot 3
       # Plot 4
 
+      par(mfrow=c(1,3),  mai = c(0.3, 0.3, 0.3, 0.3))
+        plot(df$MW, df$ALogP) # Plot 1
+        plot(df$MW, df$Qm) # Plot 2
+        plot(df$MW, df$HOMO) # Plot 4
       
+      par(mfrow=c(1,3),  mai = c(0.3, 0.3, 0.3, 0))
+        plot(df$ALogP, df$MW) # Plot 1
+        plot(df$Qm, df$MW) # Plot 2
+        plot(df$HOMO, df$MW) # Plot 4
+        
 
 ######## Saving plot to file
 
@@ -128,8 +200,17 @@ abline(lm(df$HOMO ~ df$MW)) # Trend line
 
 # Multi-plot
 
-  pdf("plot.pdf")
+  pdf("plot2.pdf")
     par(mfrow=c(2,2))
+    # Plot 1
+    # Plot 2
+    # Plot 3
+    # Plot 4
+  dev.off()
+
+  
+  pdf("plot2.pdf")
+  par(mfrow=c(2,2),  mai = c(0.7, 0.7, 0.3, 0.3))
     # Plot 1
     # Plot 2
     # Plot 3
