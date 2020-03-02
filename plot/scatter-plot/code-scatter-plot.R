@@ -19,7 +19,7 @@ missingdata <- aromatase[!complete.cases(aromatase), ] # Identify which row cont
 aromatase <- na.omit(aromatase) # Remove any missing data >> Complete case
 sum(is.na(aromatase)) # Check again for missing data
 
-class <- aromatase[,2] # Class label
+class <- aromatase[ ,2] # Class label
 aromatase2 <- aromatase[,6:18]   # Descriptors
 aromatase3 <- cbind(class, aromatase2) # Combine Class label + Descriptors into same dataframe
 
@@ -65,7 +65,7 @@ plot(df$MW, df$ALogP, col = "#FF0000") # Hex color code for red
 rgb(1,0,0) # red color
 rgb(255,0,0, max=255) # red color
 
-plot(df$MW, df$ALogP, col = rgb(255,0,0, max=255) )
+plot(df$MW, df$ALogP, col = rgb(0,0,0, max=255) )
 
 
 
@@ -104,8 +104,8 @@ plot(df$MW, df$ALogP, pch = 16, col=alpha(as.character(df$color),0.3 ) )
 # Scatter plot of first pair
 plot(df$MW, df$ALogP, pch = 16, 
      col = alpha("red", 0.3),
-     xlab = "MW",    # X-axis label
-     ylab = "ALogP", # Y-axis label
+     xlab = "Molecular Weight (MW)",    # X-axis label
+     ylab = "Solubility (ALogP)", # Y-axis label
      font.lab = 2    # X and Y labels are now bold
      )
 abline(lm(df$ALogP ~ df$MW)) # Trend line
@@ -197,7 +197,11 @@ abline(lm(df$HOMO ~ df$MW)) # Trend line
   pdf("plot.pdf")
   #...Insert plot function here...
   dev.off()
-
+  
+  pdf("plot.pdf")
+    plot(df$ALogP, df$MW)
+  dev.off()
+  
 # Multi-plot
 
   pdf("plot2.pdf")
@@ -208,6 +212,12 @@ abline(lm(df$HOMO ~ df$MW)) # Trend line
     # Plot 4
   dev.off()
 
+  pdf("plot_multiplot.pdf")
+    par(mfrow=c(1,3),  mai = c(0.3, 0.3, 0.3, 0))
+      plot(df$ALogP, df$MW) # Plot 1
+      plot(df$Qm, df$MW) # Plot 2
+      plot(df$HOMO, df$MW) # Plot 4
+  dev.off()
   
   pdf("plot2.pdf")
   par(mfrow=c(2,2),  mai = c(0.7, 0.7, 0.3, 0.3))
