@@ -1,3 +1,4 @@
+# This app is for educational purpose only. Insights gained is not financial advice. Use at your own risk!
 import streamlit as st
 from PIL import Image
 import pandas as pd
