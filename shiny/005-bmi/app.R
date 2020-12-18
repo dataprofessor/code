@@ -19,7 +19,7 @@ ui <- fluidPage(theme = shinytheme("united"),
                            tabPanel("Home",
                                     # Input values
                                     sidebarPanel(
-                                      HTML("<h3>Input parameters</h4>"),
+                                      HTML("<h3>Input parameters</h3>"),
                                       sliderInput("height", 
                                                   label = "Height", 
                                                   value = 175, 
