@@ -25,6 +25,8 @@ def load_data(year):
     raw = df.drop(df[df.Age == 'Age'].index) # Deletes repeating headers in content
     raw = raw.fillna(0)
     playerstats = raw.drop(['Rk'], axis=1)
+    for i in playerstats.filter(regex='%').columns:
+        playerstats[i] = playerstats[i].astype(float)
     return playerstats
 playerstats = load_data(selected_year)
 
@@ -42,6 +44,7 @@ df_selected_team = playerstats[(playerstats.Tm.isin(selected_team)) & (playersta
 st.header('Display Player Stats of Selected Team(s)')
 st.write('Data Dimension: ' + str(df_selected_team.shape[0]) + ' rows and ' + str(df_selected_team.shape[1]) + ' columns.')
 st.dataframe(df_selected_team)
+
 
 # Download NBA player stats data
 # https://discuss.streamlit.io/t/how-to-download-file-in-streamlit/1806
@@ -65,4 +68,4 @@ if st.button('Intercorrelation Heatmap'):
     with sns.axes_style("white"):
         f, ax = plt.subplots(figsize=(7, 5))
         ax = sns.heatmap(corr, mask=mask, vmax=1, square=True)
-    st.pyplot()
+    st.pyplot(f)
