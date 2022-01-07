@@ -65,55 +65,51 @@ ui <- fluidPage(theme = shinytheme("united"),
 # Server                           #
 ####################################
 
-server <- function(input, output, session) {
-
-  # Input Data
-  datasetInput <- reactive({  
+server <- function(input, output, session){
+  
+  # Using event reactive function to update the predictors used in the model upon the hitting the submit button
     
-  # outlook,temperature,humidity,windy,play
-  df <- data.frame(
-    Name = c("outlook",
-             "temperature",
-             "humidity",
-             "windy"),
-    Value = as.character(c(input$outlook,
-                           input$temperature,
-                           input$humidity,
-                           input$windy)),
-    stringsAsFactors = FALSE)
-  
-  play <- "play"
-  df <- rbind(df, play)
-  input <- transpose(df)
-  write.table(input,"input.csv", sep=",", quote = FALSE, row.names = FALSE, col.names = FALSE)
-  
-  test <- read.csv(paste("input", ".csv", sep=""), header = TRUE)
-  
-  test$outlook <- factor(test$outlook, levels = c("overcast", "rainy", "sunny"))
-  
-  
-  Output <- data.frame(Prediction=predict(model,test), round(predict(model,test,type="prob"), 3))
-  print(Output)
-  
+  datasetInput <- eventReactive( input$submit,{
+   
+    # create dataframe structure from weather dataframe
+    rvtest.df = weather[0,1:4]
+    
+    rvtest.df[1,1] = factor(input$outlook, levels = c("sunny", "rainy", "overcast"))
+    rvtest.df[1,2] = input$temperature
+    rvtest.df[1,3] = input$humidity
+    rvtest.df[1,4] = ifelse(input$windy == "TRUE", T, F)
+       
+    
+    " Note: dataframe with updated input values for the predictors will be used in the prediction model, hence we 
+skip the code below that writes to csv file to build the test dataset "
+    
+    # write the inputs to csv file
+    # write.table(rvtest.df[,1:4], paste0(path,"/csv/ui_inputs.csv"), sep=",", 
+    #         quote = FALSE, row.names = FALSE, col.names = TRUE)
+   
+    # Append the csv file without headers
+    #write.table(rvtest.df[,1:4], append = TRUE,  paste0(path,"/csv/ui_inputs.csv"), sep=",", 
+    #           quote = FALSE, row.names = FALSE, col.names = FALSE)
+    
+    
+    Output <- data.frame(Prediction=predict(model,rvtest.df), 
+                     round(predict(model,rvtest.df,type="prob"), 3))
+    
   })
   
-  # Status/Output Text Box
-  output$contents <- renderPrint({
-    if (input$submitbutton>0) { 
-      isolate("Calculation complete.") 
-    } else {
-      return("Server is ready for calculation.")
-    }
-  })
-  
-  # Prediction results table
+  # Render output for Prediction results table 
   output$tabledata <- renderTable({
-    if (input$submitbutton>0) { 
-      isolate(datasetInput()) 
-    } 
+    datasetInput()
   })
   
-}
+  # Render output for Status/Output Text Box
+  output$contents <- renderPrint({
+    ifelse(!input$submitbutton,"Server is ready for calculation.","Calculation complete." )
+  })
+  
+} # server
+
+
 
 ####################################
 # Create the shiny app             #
